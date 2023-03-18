@@ -1,4 +1,14 @@
+
+##############################################
+
 from tkinter import *
+# from tkinter import te
+from PIL import *
+from PIL import Image
+from tkinter.messagebox import *
+from tkinter import filedialog
+from turtle import textinput
+from Twl import Trans_list_of_words as Tlow
 
 def damier(): #fonction dessinant le tableau
     ligne_vert()
@@ -19,13 +29,14 @@ def ligne_hor():
 def click_gauche(event): #fonction rendant vivante la cellule cliquée donc met la valeur 1 pour la cellule cliquée au dico_case
     x = event.x -(event.x%c)
     y = event.y -(event.y%c)
-    can1.create_rectangle(x, y, x+c, y+c, fill=liste.get(ACTIVE),outline='white')
-    dico_case[x,y]=1
+    if dico_case[x, y] == 0:
+        can1.create_rectangle(x, y, x+c, y+c, fill=liste.get(ACTIVE),outline='white')
+        dico_case[x,y]=1
 
-    pixel.append(str(x) + ' ' + str(y))
-    pixel.append(liste.get(ACTIVE))
+        pixel.append(str(x) + ' ' + str(y) + ' ' + str(liste.get(ACTIVE)))
+        # pixel.append(liste.get(ACTIVE))
 
-    print(str(pixel))
+        print(str(pixel))
     # print(str(pixel_color))
 
 def click_droit(event): #fonction tuant la cellule cliquée donc met la valeur 0 pour la cellule cliquée au dico_case
@@ -38,19 +49,63 @@ def click_droit(event): #fonction tuant la cellule cliquée donc met la valeur 0
     print(str(pixel))
     # print(str(pixel_color))
     # pixel.pop
-    print(pixel.index('Black'))
+    # print(pixel.index('Black'))
 
+def TransRGB(color_):
+    # value_color = [(0,0,0),(255, 255 ,255),(200, 200 ,200),(255, 0 ,0),(0, 0 ,255),(0, 255 ,0),(255, 255 ,0),(255, 200 ,200),(200, 200 ,100),(255, 0 ,255),(175, 175 ,255)]
+    rgb = (0, 0, 0)
+    # i = 0
+    for i in range(len(color)):
+        if not color[i] == color_:
+            pass
+        else:
+            rgb = value_color[i]
 
-def create():
-    pass
+    return rgb 
+
 
 def clear():
-    print(type(can1.size + 1))
+    print()
     # can1.create_rectangle(x, y, x+c, y+c, fill='white',outline='white')
 
+def textInput(message='',title=''):
+    # def get_():
+    #     val = value.get()
 
-height = 600
-width = 650
+    #     windowInput.destroy()
+
+    #     return val
+    def getIt(val):
+
+        val =  value.get()
+        windowInput.destroy()
+        # return val
+
+    windowInput = Tk()
+    windowInput.title(title)
+
+    print(windowInput.__sizeof__)
+
+    value = StringVar()
+
+    val = ''
+
+    entry = Entry(windowInput, textvariable=value, width=30)
+    entry.pack()
+
+    ok = Button(windowInput, text=' OK ',command=lambda:getIt(val))
+    ok.pack()
+
+    # val = value.get()
+
+    windowInput.mainloop()
+
+    return val
+
+# def textinput(title: str, prompt: str) -> str | None: ...
+
+height = 640
+width = 640
 
 #taille des cellules
 c = 10
@@ -102,15 +157,33 @@ can1.configure(xscrollcommand=hScroll.set, yscrollcommand=vScroll.set)
 
 
 menu = Menu(fen1)
-file = Menu(menu,tearoff=0)
+file = Menu(menu,tearoff=False)
 
-file.add_command(label='New', command=clear)
+file.add_command(label='New', command=lambda:clear)
 
 
 
-menu.add_cascade(label='file',menu= file)
+menu.add_cascade(label='File',menu= file)
 
-menu.add_command(label='Create', command=None)
+pixel = []
+pixel_color = []
+
+def create():
+    largeur = 640
+    hauteur = 640
+    im=Image.new('RGB', (largeur, hauteur))
+    # Inititilize
+    for x in range(largeur):
+        for y in range(hauteur):
+            im.putpixel((x, y), (255, 255, 255))
+    # draw
+    for i in range(len(pixel)):
+        im.putpixel( ( Tlow(pixel[i])[0] , Tlow(pixel[i])[1] ), TransRGB(Tlow(pixel[i])[2]) )
+
+    im.save("pixelArt.png")
+    print('Create !')
+
+menu.add_command(label='Create', command=lambda:create())
 fen1.config(menu=menu)
 
 
@@ -131,12 +204,14 @@ can1.configure(scrollregion=can1.bbox(ALL))
 
 # damier()
 
-pixel = []
-pixel_color = []
+
 
 
 color = ["Black","White",'Grey',"Red","Blue","Green","Yellow","Pink","Brown","Purple","Cyan"]
+value_color = [(0,0,0),(255, 255 ,255),(200, 200 ,200),(255, 0 ,0),(0, 0 ,255),(0, 255 ,0),(255, 255 ,0),(255, 200 ,200),(200, 200 ,100),(255, 0 ,255),(175, 175 ,255)]
+
 # color.remove("Black")
+
 # liste
 liste = Listbox(frm,justify='center',width=7,height=4)
 # liste.insert(1, "Black")
@@ -155,12 +230,14 @@ for i in color:
 
 liste.pack()
 
-print()
+# print(textinput("Name file", "Save with name"))
 # liste.
 
 # # print(liste.get(1.0,END))
 # print(liste.focus())
 
-
+# textInput()
+# textInput()
+# askquestion()
 fen1.mainloop()
 
