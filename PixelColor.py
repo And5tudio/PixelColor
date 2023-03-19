@@ -36,20 +36,29 @@ def click_gauche(event): #fonction rendant vivante la cellule cliquée donc met 
         pixel.append(str(x) + ' ' + str(y) + ' ' + str(liste.get(ACTIVE)))
         # pixel.append(liste.get(ACTIVE))
 
-        print(str(pixel))
+        # print(str(pixel))
     # print(str(pixel_color))
 
 def click_droit(event): #fonction tuant la cellule cliquée donc met la valeur 0 pour la cellule cliquée au dico_case
     x = event.x -(event.x%c)
     y = event.y -(event.y%c)
     can1.create_rectangle(x, y, x+c, y+c, fill='white',outline='white')
-    dico_case[x,y]=0
-    if pixel.count(str(x)+ ' ' +str(y)) == 1:
-        pixel.remove(str(x)+ ' ' +str(y))
-    print(str(pixel))
+    # dico_case[x,y]=0
+    # if pixel.count(str(x)+ ' ' +str(y)) == 1:
+    #     pixel.remove(str(x)+ ' ' +str(y))
+    # print(str(pixel))
     # print(str(pixel_color))
     # pixel.pop
     # print(pixel.index('Black'))
+    if dico_case[x, y] == 1:
+        can1.create_rectangle(x, y, x+c, y+c, fill='white',outline='white')
+        dico_case[x,y]=0
+
+        pixel.append(str(x) + ' ' + str(y) + ' ' + 'White')
+        # pixel.append(liste.get(ACTIVE))
+
+        # print(str(pixel))
+    # print(str(pixel_color))
 
 def TransRGB(color_):
     # value_color = [(0,0,0),(255, 255 ,255),(200, 200 ,200),(255, 0 ,0),(0, 0 ,255),(0, 255 ,0),(255, 255 ,0),(255, 200 ,200),(200, 200 ,100),(255, 0 ,255),(175, 175 ,255)]
@@ -60,6 +69,8 @@ def TransRGB(color_):
             pass
         else:
             rgb = value_color[i]
+    
+    # print(rgb)
 
     return rgb 
 
@@ -129,8 +140,8 @@ fen1 = Tk()
 title='PixelColor'
 fen1.title(title)
 
-fen1.minsize(256,256)
-fen1.maxsize(640, 640)
+fen1.minsize(260,260)
+fen1.maxsize(650, 650)
 
 # print(fen1.sizefrom())
 
@@ -169,16 +180,18 @@ pixel = []
 pixel_color = []
 
 def create():
-    largeur = 640
-    hauteur = 640
+    largeur = 61
+    hauteur = 62
     im=Image.new('RGB', (largeur, hauteur))
     # Inititilize
     for x in range(largeur):
         for y in range(hauteur):
             im.putpixel((x, y), (255, 255, 255))
     # draw
-    for i in range(len(pixel)):
-        im.putpixel( ( Tlow(pixel[i])[0] , Tlow(pixel[i])[1] ), TransRGB(Tlow(pixel[i])[2]) )
+    if len(pixel) > 0 :
+        for i in range(len(pixel)):
+            im.putpixel( ( int(int(Tlow(pixel[i])[0]) / 10) , int(int(Tlow(pixel[i])[1]) / 10) ), TransRGB( Tlow(pixel[i])[2] ) )
+            # TransRGB( Tlow(pixel[i])[2] )
 
     im.save("pixelArt.png")
     print('Create !')
@@ -208,7 +221,7 @@ can1.configure(scrollregion=can1.bbox(ALL))
 
 
 color = ["Black","White",'Grey',"Red","Blue","Green","Yellow","Pink","Brown","Purple","Cyan"]
-value_color = [(0,0,0),(255, 255 ,255),(200, 200 ,200),(255, 0 ,0),(0, 0 ,255),(0, 255 ,0),(255, 255 ,0),(255, 200 ,200),(200, 200 ,100),(255, 0 ,255),(175, 175 ,255)]
+value_color = [(0,0,0),(255, 255 ,255),(200, 200 ,200),(255, 0 ,0),(0, 0 ,255),(0, 255 ,0),(255, 255 ,0),(255, 200 ,200),(200, 200 ,100),(255, 0 ,255),(175, 175 ,200)]
 
 # color.remove("Black")
 
