@@ -220,8 +220,8 @@ can1.configure(scrollregion=can1.bbox(ALL))
 
 
 
-color = ["Black","White",'Grey',"Red","Blue","Green","Yellow","Pink","Brown","Purple","Cyan"]
-value_color = [(0,0,0),(255, 255 ,255),(200, 200 ,200),(255, 0 ,0),(0, 0 ,255),(0, 255 ,0),(255, 255 ,0),(255, 200 ,200),(200, 200 ,100),(255, 0 ,255),(175, 175 ,200)]
+color = [      "Black",     "White",        'Grey',       "Red",     "Blue",     "Green",     "Yellow",      "Pink",         "Brown",    "Purple",      "Cyan"]
+value_color = [(0,0,0),(255, 255 ,255),(200, 200 ,200),(255, 0 ,0),(0, 0 ,255),(0, 255 ,0),(255, 255 ,0),(255, 200 ,200),(128, 64 ,0),(255, 0 ,255),(0, 255 ,255)]
 
 # color.remove("Black")
 
