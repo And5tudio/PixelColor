@@ -1,4 +1,4 @@
 # PixelColor
 A Simple Pixel Art Drawer
 
-##### NOT FINISHED
+##### Can create .png file of your draw
